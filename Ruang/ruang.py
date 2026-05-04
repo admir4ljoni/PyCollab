@@ -5,6 +5,7 @@ class Ruang:
         self.id_ruang = id_ruang
         self.nama_ruang = nama_ruang
         self.kapasitas_ruang = kapasitas_ruang
+        
         Ruang._data[self.id_ruang] = self
     
     # factory methods
