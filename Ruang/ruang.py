@@ -7,7 +7,7 @@ class Ruang:
         self.kapasitas_ruang = kapasitas_ruang
         Ruang._data[self.id_ruang] = self
     
-    # class factory
+    # factory methods
     @classmethod
     def create(cls, id_ruang: str, nama_ruang: str, kapasitas_ruang: int) -> "Ruang":
         if id_ruang in cls._data:
@@ -23,28 +23,17 @@ class Ruang:
         return list(cls._data.values())
 
     @classmethod
-    def update(cls, id_ruang: str, **kwargs) -> "Ruang":
-        ruang = cls.get(id_ruang)
-
-        if ruang is None:
-            raise ValueError(f"Ruang dengan ID {id_ruang} tidak ditemukan")
-        
-        if not kwargs:
-            raise ValueError("Tidak ada field yang diperbarui")
-        
-        allowed_fields = {"nama_ruang", "kapasitas_ruang"}
-        for key, value in kwargs.items():
-            if key not in allowed_fields:
-                raise ValueError(f"Field {key} tidak diperbolehkan")
-            setattr(ruang, key, value)
-        
-        return ruang
-
-    @classmethod
     def delete(cls, id_ruang: str) -> bool:
         if id_ruang not in cls._data:
             return False
         del cls._data[id_ruang]
-        
+
         return True
         
+    # dunder methods
+    def __str__(self) -> str:
+        return(
+            f"Ruang: {self.nama_ruang}\n"
+            f"ID ruang: {self.id_ruang}\n"
+            f"Kapasitas ruang: {self.kapasitas_ruang}"
+        )
