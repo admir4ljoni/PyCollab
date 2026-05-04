@@ -15,6 +15,32 @@ class Hewan:
         if id_hewan in cls._data:
             raise ValueError(f"Hewan dengan ID {id_hewan} sudah ada")
         
+        # Validasi nama
+        if not nama_hewan.strip():
+            raise ValueError("Nama hewan tidak boleh kosong")
+        if len(nama_hewan) > 50:
+            raise ValueError("Nama hewan terlalu panjang (maksimal 50 karakter)")
+        
+        # Validasi jenis
+        if not jenis_hewan.strip():
+            raise ValueError("Jenis hewan tidak boleh kosong")
+        if len(jenis_hewan) > 30:
+            raise ValueError("Jenis hewan terlalu panjang (maksimal 30 karakter)")
+        
+        # Validasi kondisi
+        if not kondisi_hewan.strip():
+            raise ValueError("Kondisi hewan tidak boleh kosong")
+        if len(kondisi_hewan) > 100:
+            raise ValueError("Kondisi hewan terlalu panjang (maksimal 100 karakter)")
+        
+        # Validasi format ID
+        if not id_hewan.startswith('H'):
+            raise ValueError("ID hewan harus dimulai dengan 'H'")
+        if len(id_hewan) != 4:
+            raise ValueError("ID hewan harus 4 karakter (contoh: H001)")
+        if not id_hewan[1:].isdigit():
+            raise ValueError("ID hewan harus diikuti angka (contoh: H001)")
+        
         return cls(id_hewan, nama_hewan, jenis_hewan, kondisi_hewan)
 
     @classmethod
@@ -45,6 +71,19 @@ class Hewan:
 
         if Pemilik.get(id_pemilik) is None:
             raise ValueError(f"Pemilik dengan id {id_pemilik} tidak ditemukan")
+
+        # Validasi lama_rawat_inap
+        if lama_rawat_inap < 0:
+            raise ValueError("Lama rawat inap tidak boleh negatif")
+        if lama_rawat_inap > 365:  # Max 1 year
+            raise ValueError("Lama rawat inap terlalu lama (maksimal 365 hari)")
+        
+        # Validasi kapasitas ruang (jika status_rawat_inap True)
+        if status_rawat_inap:
+            room = Ruang.get(id_ruang)
+            current_occupancy = len(cls.get_pets_in_room(id_ruang))
+            if current_occupancy >= room.kapasitas_ruang:
+                raise ValueError(f"Ruang {id_ruang} sudah penuh (kapasitas: {room.kapasitas_ruang}, terisi: {current_occupancy})")
 
         riwayat = {
             "id_visit": len(hewan.riwayat_rawat_inap) + 1,
@@ -137,6 +176,24 @@ class Hewan:
                     break
         
         return owned_pets
+
+    @classmethod
+    def get_pets_in_room(cls, id_ruang: str) -> list["Hewan"]:
+        """Get all animals currently in a specific room"""
+        from Ruang.ruang import Ruang
+
+        if Ruang.get(id_ruang) is None:
+            raise ValueError(f"Ruang dengan id {id_ruang} tidak ditemukan")
+
+        pets_in_room = []
+        
+        for hewan in cls.get_all():
+            for record in hewan.riwayat_rawat_inap:
+                if record.get("id_ruang") == id_ruang and record.get("status_rawat_inap", True):
+                    pets_in_room.append(hewan)
+                    break
+        
+        return pets_in_room
 
     @classmethod
     def delete(cls, id_hewan: str) -> bool:

@@ -13,6 +13,27 @@ class Ruang:
     def create(cls, id_ruang: str, nama_ruang: str, kapasitas_ruang: int) -> "Ruang":
         if id_ruang in cls._data:
             raise ValueError(f"Ruang dengan ID {id_ruang} sudah ada.")
+        
+        # Validasi kapasitas
+        if kapasitas_ruang <= 0:
+            raise ValueError("Kapasitas ruang harus lebih dari 0")
+        if kapasitas_ruang > 50:  # Max 50 animals
+            raise ValueError("Kapasitas ruang terlalu besar (maksimal 50)")
+        
+        # Validasi nama
+        if not nama_ruang.strip():
+            raise ValueError("Nama ruang tidak boleh kosong")
+        if len(nama_ruang) > 50:
+            raise ValueError("Nama ruang terlalu panjang (maksimal 50 karakter)")
+        
+        # Validasi format ID
+        if not id_ruang.startswith('R'):
+            raise ValueError("ID ruang harus dimulai dengan 'R'")
+        if len(id_ruang) != 4:
+            raise ValueError("ID ruang harus 4 karakter (contoh: R001)")
+        if not id_ruang[1:].isdigit():
+            raise ValueError("ID ruang harus diikuti angka (contoh: R001)")
+        
         return cls(id_ruang, nama_ruang, kapasitas_ruang)
 
     @classmethod
