@@ -60,7 +60,7 @@ class Dokter:
 
     @classmethod
     def get(cls, id_dokter: str) -> "Dokter | None":
-        return cls._data[id_dokter]
+        return cls._data.get(id_dokter)
 
     @classmethod
     def get_all(cls) -> list["Dokter"]:
