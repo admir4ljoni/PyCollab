@@ -23,9 +23,9 @@ def print_test_result(input_desc, expected, actual):
     print(f"Diharapkan: {expected}")
     print(f"Aktual: {actual}")
     if str(expected) == str(actual):
-        print("✅ LULUS")
+        print("LULUS")
     else:
-        print("❌ GAGAL")
+        print("GAGAL")
 
 # ==================== TEST KELAS HEWAN ====================
 
@@ -403,28 +403,28 @@ def test_validations():
         Dokter.create("D999", "Test", "Test", "08123456789", -1000)
         print_test_result("Tarif negatif", "ValueError", "Tidak ada error")
     except ValueError as e:
-        print_test_result("Tarif negatif", "ValueError", f"✅ LULUS - {e}")
+        print_test_result("Tarif negatif", "ValueError", f"LULUS - {e}")
     
     # Test format ID tidak valid
     try:
         Hewan.create("X001", "Test", "Test", "Test")
         print_test_result("Format ID tidak valid", "ValueError", "Tidak ada error")
     except ValueError as e:
-        print_test_result("Format ID tidak valid", "ValueError", f"✅ LULUS - {e}")
+        print_test_result("Format ID tidak valid", "ValueError", f"LULUS - {e}")
     
     # Test nama kosong
     try:
         Pemilik.create("P999", "", "08123456789")
         print_test_result("Nama kosong", "ValueError", "Tidak ada error")
     except ValueError as e:
-        print_test_result("Nama kosong", "ValueError", f"✅ LULUS - {e}")
+        print_test_result("Nama kosong", "ValueError", f"LULUS - {e}")
     
     # Test telepon tidak valid
     try:
         Pemilik.create("P998", "Test", "123")
         print_test_result("Telepon tidak valid", "ValueError", "Tidak ada error")
     except ValueError as e:
-        print_test_result("Telepon tidak valid", "ValueError", f"✅ LULUS - {e}")
+        print_test_result("Telepon tidak valid", "ValueError", f"LULUS - {e}")
 
 # ==================== TEST INTEGRASI ====================
 
