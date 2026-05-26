@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from Hewan.hewan import Hewan
 from Pemilik.pemilik import Pemilik
 

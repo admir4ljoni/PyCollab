@@ -1,4 +1,4 @@
-from Kucing.kucing import Kucing
+from Hewan.Kucing.kucing import Kucing
 from Pemilik.pemilik import Pemilik
 
 class KucingKampung(Kucing):
