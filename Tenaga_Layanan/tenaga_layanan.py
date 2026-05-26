@@ -13,8 +13,7 @@ class TenagaLayanan:
         TenagaLayanan._registry.append(self)
 
     def tampilkan_data(self):
-        print(f"Nama: {self.nama}")
-        print(f"Nomor Pegawai: {self.nomor_pegawai}")
+        print(f"Salah memanggil objek {self.__class__.__name__}, silahkan gunakan method tampilkan_data() dari kelas turunan")
 
     @classmethod
     def tampilkan_tenaga_layanan_berdasarkan_jenis(
