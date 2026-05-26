@@ -73,6 +73,7 @@ class Klinik:
         elif jenis_perawatan.lower() == "khusus" and isinstance(dokter, DokterSpesialis):
             biaya_dasar = self.biaya_perawatan_khusus
             total += dokter.biaya_khusus
+            total += (perawat.biaya_per_malam * lama_rawat_inap)
             total += self.biaya_perawatan_khusus
         elif jenis_perawatan.lower() == "inap" and isinstance(perawat, PerawatInap):
             biaya_dasar = self.biaya_perawatan_inap
@@ -92,9 +93,11 @@ class Klinik:
             ],
             "jenis_perawatan": jenis_perawatan,
             "lama_rawat_inap": lama_rawat_inap if lama_rawat_inap else 0,
+            "biaya_rawat_inap": (perawat.biaya_per_malam * lama_rawat_inap) if jenis_perawatan.lower() == "inap" or jenis_perawatan.lower() == "khusus" and isinstance(perawat, PerawatInap) else 0,
             "nama_dokter": dokter.nama if dokter else None,
+            "biaya_spesialis": dokter.biaya_khusus if jenis_perawatan.lower() == "khusus" and isinstance(dokter, DokterSpesialis) else 0,
             "nama_perawat": perawat.nama if perawat else None,
-            "nama_hewan": hewan.nama if hewan else None
+            "hewan": hewan if hewan else None
         }
         return invoice
         
