@@ -10,3 +10,8 @@ class PerawatInap(Perawat):
             raise ValueError("Biaya per malam tidak boleh negatif")
 
         self.biaya_per_malam = biaya_per_malam
+
+    def tampilkan_data(self):
+        print(f"Nama: {self.nama}")
+        print(f"Nomor Pegawai: {self.nomor_pegawai}")
+        print(f"Biaya Per Malam: {self.biaya_per_malam}")
