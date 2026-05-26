@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from Hewan.Kucing.kucing import Kucing
 from Pemilik.pemilik import Pemilik
 
