@@ -1,0 +1,1 @@
+from Hewan.Anjing.anjing import Anjing
