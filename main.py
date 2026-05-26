@@ -1,3 +1,5 @@
+from Tenaga_Layanan.tenaga_layanan import TenagaLayanan
+from Tenaga_Layanan import tenaga_layanan
 from Hewan.Anjing.anjing_kampung import AnjingKampung
 from Hewan.Anjing.anjing_penjaga import AnjingPenjaga
 from Hewan.Anjing import anjing_penjaga
@@ -147,3 +149,8 @@ for perawatan in invoice['perawatan_khusus']:
     print(f"  - {perawatan['nama']}: Rp{perawatan['harga']:,.0f}".replace(",", "."))
 print(f"Biaya Perawatan (Total): Rp{invoice['total']:,.0f}".replace(",", "."))
 
+print()
+
+TenagaLayanan.tampilkan_tenaga_layanan_berdasarkan_jenis(DokterUmum)
+print()
+pemilik.tampilkan_hewan_peliharaan_berdasarkan_jenis(jenis_hewan=KucingAnggora)

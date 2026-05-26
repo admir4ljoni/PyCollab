@@ -40,9 +40,18 @@ class Hewan:
         jenis_hewan: type | None = None,
         pemilik: Pemilik | None = None
     ):
+        from Hewan.Anjing.anjing_kampung import AnjingKampung
+        from Hewan.Anjing.anjing_penjaga import AnjingPenjaga
+        from Hewan.Kucing.kucing_kampung import KucingKampung
+        from Hewan.Kucing.kucing_anggora import KucingAnggora
+        
         if jenis_hewan is None and pemilik is None:
             raise ValueError("Harus menyediakan setidaknya satu parameter: jenis_hewan atau pemilik")
-        
+        if jenis_hewan is not None and jenis_hewan not in (AnjingKampung, AnjingPenjaga, KucingKampung, KucingAnggora):
+            raise TypeError("Hewan harus salah satu dari: KucingAnggora, KucingKampung, AnjingPenjaga, AnjingKampung")
+        if pemilik is not None and not isinstance(pemilik, Pemilik):
+            raise TypeError("Pemilik harus berupa instance dari kelas Pemilik")
+
         header = ""
         if jenis_hewan:
             header += f"Semua hewan berjenis {jenis_hewan.__name__}"
