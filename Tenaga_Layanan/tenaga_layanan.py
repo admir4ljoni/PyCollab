@@ -13,11 +13,15 @@ class TenagaLayanan:
         TenagaLayanan._registry.append(self)
 
     def tampilkan_data(self):
-        pass
+        print(f"Nama: {self.nama}")
+        print(f"Nomor Pegawai: {self.nomor_pegawai}")
 
+    @classmethod
     def tampilkan_tenaga_layanan_berdasarkan_jenis(
-        self,
+        cls,
         jenis_tenaga_layanan: type
     ):
-        pass
+        for karyawan in cls._registry:
+            if isinstance(karyawan, jenis_tenaga_layanan):
+                karyawan.tampilkan_data()
 
