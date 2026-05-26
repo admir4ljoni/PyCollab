@@ -1,90 +1,53 @@
+_dataDokter = {}
+
+
 class Dokter:
-    _data: dict[str, "Dokter"] = {}
+    _counter = 1 
 
-    def __init__(
-        self,
-        id_dokter: str,
-        nama_dokter: str,
-        spesialis_dokter: str,
-        narahubung_dokter: str,
-        tarif_dokter: int
-    ):
-        self.id_dokter = id_dokter
-        self.nama_dokter = nama_dokter
-        self.spesialis_dokter = spesialis_dokter
-        self.narahubung_dokter = narahubung_dokter
-        self.tarif_dokter = tarif_dokter
-        
-        Dokter._data[self.id_dokter] = self
+    def __init__(self, **kwargs):
+        self.id_dokter = f"D{Dokter._counter:03d}" 
+        Dokter._counter += 1
 
-    @classmethod
-    def create(cls, id_dokter: str, nama_dokter: str, spesialis_dokter: str, narahubung_dokter: str, tarif_dokter: int) -> "Dokter":
-        if id_dokter in cls._data:
-            raise ValueError(f"Dokter dengan ID {id_dokter} sudah ada")
-        
-        # Validasi tarif
-        if tarif_dokter < 0:
-            raise ValueError("Tarif dokter tidak boleh negatif")
-        if tarif_dokter > 10000000:  # Max 10 juta
-            raise ValueError("Tarif dokter terlalu tinggi (maksimal Rp 10.000.000)")
-        
-        # Validasi nama
-        if not nama_dokter.strip():
-            raise ValueError("Nama dokter tidak boleh kosong")
-        if len(nama_dokter) > 100:
-            raise ValueError("Nama dokter terlalu panjang (maksimal 100 karakter)")
-        
-        # Validasi spesialis
-        if not spesialis_dokter.strip():
-            raise ValueError("Spesialis dokter tidak boleh kosong")
-        if len(spesialis_dokter) > 50:
-            raise ValueError("Spesialis dokter terlalu panjang (maksimal 50 karakter)")
-        
-        # Validasi narahubung
-        if not narahubung_dokter.strip():
-            raise ValueError("Narahubung dokter tidak boleh kosong")
-        if len(narahubung_dokter) < 10 or len(narahubung_dokter) > 15:
-            raise ValueError("Nomor telepon tidak valid (10-15 digit)")
-        if not narahubung_dokter.startswith('08'):
-            raise ValueError("Nomor telepon harus dimulai dengan 08")
-        
-        # Validasi format ID
-        if not id_dokter.startswith('D'):
-            raise ValueError("ID dokter harus dimulai dengan 'D'")
-        if len(id_dokter) != 4:
-            raise ValueError("ID dokter harus 4 karakter (contoh: D001)")
-        if not id_dokter[1:].isdigit():
-            raise ValueError("ID dokter harus diikuti angka (contoh: D001)")
+        self.nama = kwargs.get("nama")
+        self.nomor_pegawai = kwargs.get("nomor_pegawai")
 
-        return cls(id_dokter, nama_dokter, spesialis_dokter, narahubung_dokter, tarif_dokter)
+        print(f"Dokter {self.nama}({self.nomor_pegawai}) telah dibuat! Unique ID: {self.id_dokter}")
+        _dataDokter[self.id_dokter] = {
+            "nama": self.nama,
+            "nomor_pegawai": self.nomor_pegawai
+        }
 
-    @classmethod
-    def get(cls, id_dokter: str) -> "Dokter | None":
-        return cls._data.get(id_dokter)
+    def __str__(self):
+        return f"Dokter(ID: {self.id_dokter}, Nama: {self.nama}, No Pegawai: {self.nomor_pegawai})"
+    
+class DokterUmum(Dokter):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.tarif = kwargs.get("tarif", 100000)
+        self.hewan_ditangani = []
+        _dataDokter[self.id_dokter]["tarif"] = self.tarif        
+        _dataDokter[self.id_dokter]["tipe"] = "Umum"             
 
-    @classmethod
-    def get_all(cls) -> list["Dokter"]:
-        return list(cls._data.values())
+    def assignPet(self, hewan):
+        self.hewan_ditangani.append(hewan)
+        print(f"{hewan.nama} telah ditangani oleh {self.nama}")
+    
+    def __str__(self):
+        return super().__str__() + f", Tarif: {self.tarif}, Hewan Ditangani: {[hewan.nama for hewan in self.hewan_ditangani]}"
+    
+class DokterSpesialis(Dokter):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.spesialisasi = kwargs.get("spesialisasi")
+        self.tarif = kwargs.get("tarif", 200000)
+        self.hewan_ditangani = []
+        _dataDokter[self.id_dokter]["spesialisasi"] = self.spesialisasi  
+        _dataDokter[self.id_dokter]["tarif"] = self.tarif                
+        _dataDokter[self.id_dokter]["tipe"] = "Spesialis"               
 
-    @classmethod
-    def get_assigned_pets(cls, id_dokter: str) -> list["Hewan"]:
-        from Hewan.hewan import Hewan
-        
-        return Hewan.get_by_dokter(id_dokter)
+    def assignPet(self, hewan):
+        self.hewan_ditangani.append(hewan)
+        print(f"{hewan.nama} telah ditangani oleh {self.nama} (Spesialis {self.spesialisasi})")
 
-    @classmethod
-    def delete(cls, id_dokter: str) -> bool:
-        if id_dokter not in cls._data:
-            return False
-        
-        del cls._data[id_dokter]
-        return True
-
-    def __str__(self) -> str:
-        return(
-            f"Dokter: {self.nama_dokter}\n"
-            f"ID dokter: {self.id_dokter}\n"
-            f"Spesialis dokter: {self.spesialis_dokter}\n"
-            f"Narahubung dokter: {self.narahubung_dokter}\n"
-            f"Tarif dokter: {self.tarif_dokter}"
-        )
+    def __str__(self):
+        return super().__str__() + f", Spesialisasi: {self.spesialisasi}, Tarif: {self.tarif}, Hewan Ditangani: {[hewan.nama for hewan in self.hewan_ditangani]}"
