@@ -37,8 +37,8 @@ class Hewan:
     @classmethod
     def tampilkan_hewan_berdasarkan_jenis_atau_pemilik(
         cls,
-        jenis_hewan: type = None,
-        pemilik: Pemilik = None
+        jenis_hewan: type | None = None,
+        pemilik: Pemilik | None = None
     ):
         if jenis_hewan is None and pemilik is None:
             raise ValueError("Harus menyediakan setidaknya satu parameter: jenis_hewan atau pemilik")

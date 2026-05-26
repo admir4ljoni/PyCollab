@@ -4,12 +4,12 @@ from Tenaga_Layanan.Dokter.dokter import Dokter
 
 class DokterSpesialis(Dokter):
     def __init__(self, nama: str, nomor_pegawai: str, biaya_khusus: int):
-        super().__init__(nama, nomor_pegawai)
-
         if not isinstance(biaya_khusus, int):
             raise TypeError("Biaya khusus harus berupa integer")
         if biaya_khusus < 0:
             raise ValueError("Biaya khusus tidak boleh negatif")
+        
+        super().__init__(nama, nomor_pegawai)
 
         self.biaya_khusus = biaya_khusus
 

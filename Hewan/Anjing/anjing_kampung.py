@@ -25,5 +25,5 @@ class AnjingKampung(Anjing):
         print(f"Warna: {self.warna}")
         for perawatan in self.perawatan_khusus:
             harga = f"{perawatan['harga']:,.0f}".replace(",", ".")
-            print(f"---> Perawatan Khusus: {perawatan['nama']}\n---> Frekuensi: {perawatan['frekuensi']}x per hari\n---> Harga: Rp{harga}")
+            print(f"---> Perawatan Khusus: {perawatan['nama']}\n--> Harga: Rp{harga}")
         print()
