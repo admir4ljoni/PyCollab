@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from Hewan.Anjing.anjing import Anjing
+from Pemilik.pemilik import Pemilik
 
 class AnjingKampung(Anjing):
     def __init__(

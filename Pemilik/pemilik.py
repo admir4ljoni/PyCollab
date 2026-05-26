@@ -12,10 +12,13 @@ class Pemilik:
         print(f"Narahubung: {self.narahubung}")
 
     def tampilkan_hewan_peliharaan(self):
-        pass
+        from Hewan.hewan import Hewan
+        Hewan.tampilkan_hewan_berdasarkan_jenis_atau_pemilik(pemilik=self)
 
     def tampilkan_hewan_peliharaan_berdasarkan_jenis(
         self,
         jenis_hewan: type
     ):
-        pass
+        from Hewan.hewan import Hewan
+        Hewan.tampilkan_hewan_berdasarkan_jenis_atau_pemilik(jenis_hewan=jenis_hewan, pemilik=self)
+        

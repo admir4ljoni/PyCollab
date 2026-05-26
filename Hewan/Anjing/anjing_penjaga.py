@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from Hewan.Anjing.anjing import Anjing
+from Pemilik.pemilik import Pemilik
 
 class AnjingPenjaga(Anjing):
     def __init__(
@@ -19,7 +20,7 @@ class AnjingPenjaga(Anjing):
     def tampilkan_data(self):
         print(f"Nama: {self.nama}")
         print(f"Usia: {self.usia}")
-        print(f"Berat Badan: {self.berat_badan}")
+        print(f"Berat Badan: {self.berat_badan} kg")
         print(f"Pemilik: {self.pemilik.nama}")
         print(f"Warna: {self.warna}")
         for perawatan in self.perawatan_khusus:
