@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from Tenaga_Layanan.Dokter.dokter import Dokter
 from Tenaga_Layanan.Dokter.dokter_spesialis import DokterSpesialis
-from Tenaga_Layanan.Perawat.perawat import Perawat
+from Tenaga_Layanan.Dokter.dokter_umum import DokterUmum
 from Tenaga_Layanan.Perawat.perawat_inap import PerawatInap
 from Tenaga_Layanan.Perawat.perawat_grooming import PerawatGrooming 
 from Hewan.hewan import Hewan
+from Hewan.Kucing.kucing_anggora import KucingAnggora
+from Hewan.Kucing.kucing_kampung import KucingKampung
+from Hewan.Anjing.anjing_kampung import AnjingKampung
+from Hewan.Anjing.anjing_penjaga import AnjingPenjaga
 
 class Klinik:
     def __init__(
@@ -43,9 +46,9 @@ class Klinik:
 
     def hitung_biaya_perawatan(
         self,
-        dokter: Dokter | None = None,
-        perawat: Perawat | None = None,
-        hewan: Hewan | None = None,
+        hewan: Hewan,
+        dokter: DokterUmum | DokterSpesialis | None = None,
+        perawat: PerawatInap | PerawatGrooming | None = None,
         lama_rawat_inap: int = 0,
         jenis_perawatan: str = "pemeriksaan" # opsi perawatan HANYA = "khusus", "inap", "grooming", dan "pemeriksaan"
     ):
@@ -58,10 +61,13 @@ class Klinik:
 
         total = 0
         biaya_dasar = 0
+        if not isinstance(hewan, (KucingAnggora, KucingKampung, AnjingPenjaga, AnjingKampung)):
+            raise TypeError("Hewan harus salah satu dari: KucingAnggora, KucingKampung, AnjingPenjaga, AnjingKampung")
+
         for perawatan_khusus in hewan.perawatan_khusus:
             total += perawatan_khusus["harga"]
 
-        if jenis_perawatan.lower() == "pemeriksaan" and isinstance(dokter, Dokter):
+        if jenis_perawatan.lower() == "pemeriksaan" and isinstance(dokter, DokterUmum):
             biaya_dasar = self.biaya_pemeriksaan_rutin
             total += self.biaya_pemeriksaan_rutin
         elif jenis_perawatan.lower() == "khusus" and isinstance(dokter, DokterSpesialis):

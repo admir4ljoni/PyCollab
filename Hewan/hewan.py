@@ -43,10 +43,15 @@ class Hewan:
         if jenis_hewan is None and pemilik is None:
             raise ValueError("Harus menyediakan setidaknya satu parameter: jenis_hewan atau pemilik")
         
-        print(f"Semua hewan berjenis {jenis_hewan.__name__}:\n" if jenis_hewan else "")
-        print(f"Dan" if jenis_hewan and pemilik else "")
-        print(f"Semua hewan milik {pemilik.nama}:\n" if pemilik else "")
-        
+        header = ""
+        if jenis_hewan:
+            header += f"Semua hewan berjenis {jenis_hewan.__name__}"
+        if jenis_hewan and pemilik:
+            header += " dan "
+        if pemilik:
+            header += f"milik {pemilik.nama}"
+        print(header + ":\n")
+
         for hewan in cls._registry:
             match = True
             if jenis_hewan is not None and not isinstance(hewan, jenis_hewan):
